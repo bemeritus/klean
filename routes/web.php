@@ -21,4 +21,4 @@ Route::get('service', [PageController::class, 'service'])->name('service');
 Route::get('project', [PageController::class, 'project'])->name('project');
 Route::get('contact', [PageController::class, 'contact'])->name('contact');
 
-//Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class);
