@@ -12,15 +12,31 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="mb-5">
-                        <div class="d-flex mb-2">
-                            <a class="text-secondary text-uppercase font-weight-medium" href="">Admin</a>
-                            <span class="text-primary px-2">|</span>
-                            <a class="text-secondary text-uppercase font-weight-medium" href="">Cleaning</a>
-                            <span class="text-primary px-2">|</span>
-                            <a class="text-secondary text-uppercase font-weight-medium" href="">{{ $post->created_at }}</a>
+
+                    <div class="d-flex flex-row-reverse justify-content-between">
+                        <div class="text-right">
+                            <a class="btn btn-sm btn-outline-secondary" href="{{ route('posts.edit', ['post' => $post->id]) }}">Edit</a>
+                            <form action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST"
+                                onsubmit="return confirm('Are you sure to delete')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+
                         </div>
-                        <h1 class="section-title mb-3">{{ $post->title }}</h1>
+
+                        <div class="mb-5">
+                            <div class="d-flex mb-2">
+                                <a class="text-secondary text-uppercase font-weight-medium" href="">Admin</a>
+                                <span class="text-primary px-2">|</span>
+                                <a class="text-secondary text-uppercase font-weight-medium" href="">Cleaning</a>
+                                <span class="text-primary px-2">|</span>
+                                <a class="text-secondary text-uppercase font-weight-medium" href="">{{ $post->created_at }}</a>
+                            </div>
+
+                            <h1 class="section-title mb-3">{{ $post->title }}</h1>
+
+                        </div>
                     </div>
 
                     <div class="mb-5">

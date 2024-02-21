@@ -4,30 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::latest()->paginate(3);
 
         return view('posts.index')->with('posts', $posts);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view('posts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -55,9 +50,7 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Post $post)
     {
         return view('posts.show')->with([
@@ -66,27 +59,52 @@ class PostController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+
+    public function edit(Post $post)
     {
-        //
+        return view('posts.edit')->with(['post' => $post]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+
+    public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'short_content' => 'required',
+            'content' => 'required',
+            'photo' => 'nullable|image|max:2048',
+        ]);
+
+        if($request->hasFile('photo')) {
+
+            if(isset($post->photo)){
+                Storage::delete($post->photo);
+            }
+
+            $name = $request->file('photo')->getClientOriginalName();
+            $path = $request->file('photo')->storeAs('post-photos', $name);
+
+        }
+
+        $post->update([
+            'title' => $request->get('title'),
+            'short_content' => $request->get('short_content'),
+            'content' => $request->get('content'),
+            'photo' => $path ?? $post->photo,
+
+        ]);
+
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+
+    public function destroy(Post $post)
     {
-        //
+        if(isset($post->photo)){
+            Storage::delete($post->photo);
+        }
+
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }
