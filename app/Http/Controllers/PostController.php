@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +12,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::latest()->paginate(3);
+        $posts = Post::latest()->paginate(9);
 
         return view('posts.index')->with('posts', $posts);
     }
@@ -19,7 +20,9 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('posts.create');
+        return view('posts.create')->with([
+            'categories' => Category::all(),
+        ]);
     }
 
 
@@ -40,6 +43,8 @@ class PostController extends Controller
 
 
         $post = Post::create([
+            'user_id' => 1,
+            'category_id' => $request->get('category_id'),
             'title' => $request->get('title'),
             'short_content' => $request->get('short_content'),
             'content' => $request->get('content'),

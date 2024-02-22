@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<\App\Models\Post>
+ * @extends Factory<Post>
  */
 class PostFactory extends Factory
 {
@@ -18,6 +19,7 @@ class PostFactory extends Factory
     {
         return [
             'user_id' => 1,
+            'category_id' => rand(1, 5),
             'title' => fake()->sentence(),
             'short_content' => fake()->sentence(15),
             'content' => fake()->paragraph(10),
