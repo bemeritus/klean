@@ -35,6 +35,13 @@
                             @endforeach
                         </select>
 
+                        <select name="tags[]" class="form-control p-2" style="margin-bottom: 15px" multiple>
+{{--                            <option>Choose tags</option>--}}
+                            @foreach($tags as $tag)
+                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                            @endforeach
+                        </select>
+
                     </div>
 
                     <div class="control-group form-control p-4 mb-4">
