@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
 
     public function index()
     {
@@ -47,7 +51,7 @@ class PostController extends Controller
 
 
         $post = Post::create([
-            'user_id' => 1,
+            'user_id' => auth()->user()->id,
             'category_id' => $request->get('category_id'),
             'title' => $request->get('title'),
             'short_content' => $request->get('short_content'),

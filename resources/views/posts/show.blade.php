@@ -32,6 +32,7 @@
 
                         </div>
 
+                        @auth
                         <div class="text-right d-flex">
                             <a class="btn btn-sm btn-outline-secondary mr-2" style="height: 43px" href="{{ route('posts.edit', ['post' => $post->id]) }}">Edit</a>
                             <form action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST"
@@ -40,11 +41,8 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                             </form>
-
-
-
                         </div>
-
+                        @endauth
 
                     </div>
 
@@ -74,22 +72,7 @@
 
                     <div class="bg-light rounded p-5">
                         <h3 class="mb-4 section-title">Leave a comment</h3>
-
-{{--                            <div class="form-row">--}}
-{{--                                <div class="form-group col-sm-6">--}}
-{{--                                    <label for="name">Name *</label>--}}
-{{--                                    <input type="text" class="form-control" id="name">--}}
-{{--                                </div>--}}
-{{--                                <div class="form-group col-sm-6">--}}
-{{--                                    <label for="email">Email *</label>--}}
-{{--                                    <input type="email" class="form-control" id="email">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="form-group">--}}
-{{--                                <label for="website">Website</label>--}}
-{{--                                <input type="url" class="form-control" id="website">--}}
-{{--                            </div>--}}
-
+                        @auth
                         <form action="{{ route('comments.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
@@ -100,18 +83,19 @@
                             <div class="form-group mb-0">
                                 <input type="submit" value="Leave Comment" class="btn btn-primary">
                             </div>
-
                         </form>
+                        @else
+                            <div>
+                                <a href="{{ route('login') }}" class="btn btn-primary">To write a comment please Login or Sign Up </a>
+                            </div>
+                        @endauth
                     </div>
                 </div>
 
                 <div class="col-lg-4 mt-5 mt-lg-0">
                     <div class="d-flex flex-column text-center bg-secondary rounded mb-5 py-5 px-4">
                         <img src="/img/user.jpg" class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
-                        <h3 class="text-white mb-3">John Doe</h3>
-                        <p class="text-white m-0">Conset elitr erat vero dolor ipsum et diam, eos dolor lorem ipsum,
-                            ipsum
-                            ipsum sit no ut est. Guber ea ipsum erat kasd amet est elitr ea sit.</p>
+                        <h3 class="text-white mb-3">{{ $post->user->name }}</h3>
                     </div>
                     <div class="mb-5">
                         <div class="w-100">
@@ -131,6 +115,7 @@
                                     <a class="text-dark" href="#"><i class="fa fa-angle-right text-secondary mr-2"></i>{{ $category->name }}</a>
                                     <span class="badge badge-primary badge-pill">{{ $category->posts()->count() }}</span>
                                 </li>
+
                             @endforeach
 
                         </ul>

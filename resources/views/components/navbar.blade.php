@@ -15,6 +15,16 @@
 
             <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
         </div>
-        <a href="{{ route('posts.create') }}" class="btn btn-primary mr-3 d-none d-lg-block">Create Blog</a>
+        @auth()
+            <a href="{{ route('posts.create') }}" class="btn btn-primary mr-3 d-none d-lg-block">Create Blog</a>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button class="btn btn-dark mr-3 d-none d-lg-block"> Logout </button>
+            </form>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-primary mr-3 d-none d-lg-block">Login</a>
+        @endauth
+
+
     </div>
 </nav>
