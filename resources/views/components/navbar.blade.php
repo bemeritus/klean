@@ -16,6 +16,9 @@
             <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
         </div>
         @auth()
+            <div style="margin-right: 10px" >
+                {{ auth()->user()->name }}
+            </div>
             <a href="{{ route('posts.create') }}" class="btn btn-primary mr-3 d-none d-lg-block">Create Blog</a>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf

@@ -33,15 +33,18 @@
                         </div>
 
                         @auth
-                        <div class="text-right d-flex">
-                            <a class="btn btn-sm btn-outline-secondary mr-2" style="height: 43px" href="{{ route('posts.edit', ['post' => $post->id]) }}">Edit</a>
-                            <form action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST"
-                                onsubmit="return confirm('Are you sure to delete')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                            </form>
-                        </div>
+                            @canany(['update', 'delete'], $post)
+                                <div class="text-right d-flex">
+
+                                    <a class="btn btn-sm btn-outline-secondary mr-2" style="height: 43px" href="{{ route('posts.edit', ['post' => $post->id]) }}">Edit</a>
+                                    <form action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure to delete')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </form>
+                                </div>
+                              @endcanany
                         @endauth
 
                     </div>

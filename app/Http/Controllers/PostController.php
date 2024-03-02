@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -13,6 +14,7 @@ class PostController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show']);
+        $this->authorizeResource(Post::class, 'post');
     }
 
     public function index()
@@ -85,12 +87,17 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+//        Gate::authorize('update', $post);
+
+
         return view('posts.edit')->with(['post' => $post]);
     }
 
 
     public function update(Request $request, Post $post)
     {
+//        Gate::authorize('update', $post);
+
         $request->validate([
             'title' => 'required',
             'short_content' => 'required',

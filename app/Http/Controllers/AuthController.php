@@ -45,7 +45,6 @@ class AuthController extends Controller
             'password_confirmation' => 'required|same:password'
         ]);
 
-//        dd($validated);
 
         $user = User::create($validated);
 
